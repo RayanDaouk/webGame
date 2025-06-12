@@ -61,7 +61,7 @@ A component will allow:
 - Zones restricted by level requirements
 
 FR:
-🚀 Getting Started with Create React App for a Web Game
+🚀 Démarrer avec un projet ReactJS pour faire un jeu web:
 Développeur Drupal Frontend depuis janvier 2022, je redécouvre ReactJS par pure passion et curiosité.
 
 J’ai décidé de créer ce projet de jeu web en m’inspirant de titres comme Golden Sun (pour le système de combat) et Myst-Legacy (pour l’exploration).
