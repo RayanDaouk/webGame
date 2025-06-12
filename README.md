@@ -1,5 +1,5 @@
 EN:
-🚀 Getting Started with Create React App for a Web Game
+🚀 Getting Started with Create React App for a Web Game:
 Frontend Drupal developer since January 2022, I’m rediscovering ReactJS out of pure passion and curiosity.
 
 I decided to start this web game project, drawing inspiration from Golden Sun (for the combat system) and Myst-Legacy (for exploration).
