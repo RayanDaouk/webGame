@@ -1,46 +1,123 @@
-# Getting Started with Create React App
+EN:
+🚀 Getting Started with Create React App for a Web Game
+Frontend Drupal developer since January 2022, I’m rediscovering ReactJS out of pure passion and curiosity.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+I decided to start this web game project, drawing inspiration from Golden Sun (for the combat system) and Myst-Legacy (for exploration).
+I’m not sure how far this project will go, but it means a lot to me.
 
-## Available Scripts
+🧭 Project Goals
+Major Steps:
+- Passively learn ReactJS with TypeScript.
 
-In the project directory, you can run:
+Develop all core technical features:
 
-### `npm start`
+- Player movement
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Area transitions
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Monster spawning
 
-### `npm test`
+- UI and interactions
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Add visual elements:
+As a trained graphic designer, I will create custom visual assets for the game.
 
-### `npm run build`
+📌 Current Progress
+1) Player movement – ✅ Done
+I created an intuitive movement system using a simulated analog joystick attached to the player token. The movement is mouse-based.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2) Area transitions – ⏳ In progress
+The main challenge is optimizing map loading via lazy loading.
+Each map includes:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Its own decorations
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Spawn points
 
-### `npm run eject`
+- Collisions
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Doors, etc.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+🔧 A custom door component is being built to enable map transitions.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+3) Camera boundary – 🔄 To do
+A dynamic boundary zone will follow the player.
+When it nears the edge of the player’s screen, the window will scroll in the appropriate direction.
+Direction data will be passed from TokenPlayer to the CameraBoundary component.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+4) Polygonal zones – 🔄 To do
+A component will allow:
 
-## Learn More
+- Custom shapes with configurable number of points
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Positioning within a specific map
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+🎯 Custom zone features:
+
+- Monster spawn zones (initially simulated)
+
+- Collision areas
+
+- Zones restricted by level requirements
+
+FR:
+🚀 Getting Started with Create React App for a Web Game
+Développeur Drupal Frontend depuis janvier 2022, je redécouvre ReactJS par pure passion et curiosité.
+
+J’ai décidé de créer ce projet de jeu web en m’inspirant de titres comme Golden Sun (pour le système de combat) et Myst-Legacy (pour l’exploration).
+Je ne sais pas encore jusqu’où ce projet me mènera, mais il me tient beaucoup à cœur.
+
+🧭 Objectifs du projet
+Grandes étapes :
+- Apprendre ReactJS avec TypeScript de façon passive.
+
+Développer toutes les fonctionnalités techniques :
+
+- Déplacement
+
+- Changement de zone
+
+- Apparition de monstres
+
+- Interfaces, etc.
+
+- Ajouter le graphisme :
+Étant infographiste de formation, je compte utiliser mes compétences visuelles pour créer les assets graphiques du jeu.
+
+📌 Avancement actuel
+1) Déplacement du pion joueur – ✅ Fait
+J'ai opté pour une simulation de joystick analogique fixé au pion. Le but était de créer un système de déplacement intuitif à la souris.
+
+2) Changement de cartes – ⏳ En cours
+Le défi principal est d’optimiser le chargement des cartes avec du lazy loading.
+Chaque carte contient :
+
+- ses propres décors
+
+- spawns
+
+- collisions
+
+- portes...
+
+🔧 Création d’un composant porte permettant de changer de carte.
+
+3) Délimitation de la caméra – 🔄 À faire
+Création d'une zone autour du pion.
+Lorsque cette zone approche des bords de l’écran, l'écran doit scroller dans la bonne direction.
+La direction sera transmise depuis TokenPlayer au composant CameraBoundary.
+
+4) Zones polygonales – 🔄 À faire
+Création d’un composant permettant de :
+
+- Définir le nombre de points et la forme
+
+- Choisir la position dans la carte
+
+🎯 Les zones personnalisées peuvent avoir plusieurs fonctions :
+
+- Zone de spawn de monstre (simulation dans un premier temps)
+
+- Zone de collision
+
+- Zone restreinte par un niveau requis
