@@ -60,6 +60,10 @@ A component will allow:
 
 - Zones restricted by level requirements
 
+
+--------------------------------------------------------------------------------------------------------------------
+
+
 FR:
 🚀 Démarrer avec un projet ReactJS pour faire un jeu web:
 Développeur Drupal Frontend depuis janvier 2022, je redécouvre ReactJS par pure passion et curiosité.
