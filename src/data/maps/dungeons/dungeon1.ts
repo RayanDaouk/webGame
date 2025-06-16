@@ -1,5 +1,5 @@
 import { MapData } from '../../../types/map';
-
+// Are you lost? Get more infos on village1.ts :)
 export const dungeon1: MapData = {
   id: 'dungeon-1',
   name: 'Crypte Sombre',
@@ -10,10 +10,10 @@ export const dungeon1: MapData = {
     {
       id: 'to-village-1',
       targetMapId: 'village-1',
-      position: { x: 200, y: 200 }, // Position du bouton sur cette map
+      position: { x: 200, y: 200 },
       label: 'Sortir du donjon',
       size: { width: 120, height: 40 },
-      spawnPosition: { x: 400, y: 300 }, // Position où le joueur apparaît dans targetMapId
+      spawnPosition: { x: 400, y: 300 },
     },
   ],
 };

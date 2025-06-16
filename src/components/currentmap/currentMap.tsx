@@ -5,10 +5,10 @@ import MapPortalComponent from '../mapPortal/mapPortal';
 import { Position } from '../../types/position';
 
 interface Props {
-  mapRef: RefObject<HTMLDivElement | null>;
-  children: ReactNode;
+  mapRef: RefObject<HTMLDivElement | null>; // DOm ref for map
+  children: ReactNode; // Render children => compo playerToken
   currentMapId: string;
-  onMapChange: (
+  onMapChange: ( // Called when player change map
     newMapId: string,
     spawnPosition?: {
       x: number;
@@ -19,70 +19,69 @@ interface Props {
 }
 
 const CurrentMap = ({ mapRef, children, currentMapId, onMapChange, onPortalClick  }: Props) => {
-  const [currentMap, setCurrentMap] = useState<MapData | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  // Test ajout Rayan
-  const [spawnPos, setSpawnPos] = useState();
+  const [currentMap, setCurrentMap] = useState<MapData | null>(null); // Actual data map (loaded from ID)
+  const [loading, setLoading] = useState(false); // Render during loading
+  const [error, setError] = useState<string | null>(null); // Errors on map gestion
 
-  useEffect(() => {
-    const loadCurrentMap = async () => {
-      setLoading(true);
-      setError(null);
+  useEffect(() => { // Hook useEffect :called each time the currentMapId changes and is passed as a parameter to be tracked
+    const loadCurrentMap = async () => { // Async load map
+      setLoading(true); // Init loading
+      setError(null); // Reset errors
 
       try {
-        const mapData = await loadMap(currentMapId);
-        setCurrentMap(mapData);
+        const mapData = await loadMap(currentMapId); // loading datas map
+        setCurrentMap(mapData); // (see mapRegistry.ts)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Erreur inconnue');
         console.error('Erreur chargement map:', err);
       } finally {
-        setLoading(false);
+        setLoading(false); //Success or not, loading is finished
       }
     };
 
     loadCurrentMap();
-  }, [currentMapId]);
+  }, [currentMapId]); // Tracked by useEffect
 
-  const handlePortalClick = (
+  const handlePortalClick = (  // Called when portal is clicked
     targetMapId: string,
     spawnPosition: {
       x: number;
       y: number;
     },
   ) => {
-    onMapChange(targetMapId, spawnPosition);
+    onMapChange(targetMapId, spawnPosition); // Send parent to load new map
   };
 
-  if (loading) {
+  if (loading) { // If map is long to loading (not instant), show loading in render
     return <div>Chargement de la carte...</div>;
   }
 
-  if (error) {
+  if (error) { // Show error
     return <div>Erreur : {error}</div>;
   }
 
-  if (!currentMap) {
+  if (!currentMap) { // If don't found map
     return <div>Aucune carte chargée</div>;
   }
 
   return (
     <div
-      ref={mapRef}
+    className='current-map'
+      ref={mapRef} // Container map ref on DOM
       style={{
-        width: `${currentMap.width}px`,
+        width: `${currentMap.width}px`, // Dynamic width for map
         height: `${currentMap.height}px`,
-        position: 'relative',
+        position: 'relative', // need it to fix portals on maps
         backgroundColor: currentMap.backgroundColor,
       }}
     >
       {children}
 
-      {/* Affichage des portails */}
+      {/* Rendered portals */}
       {currentMap.portals?.map((portal) => (
         <MapPortalComponent
-          key={portal.id}
-          portal={portal}
+          key={portal.id} // Unique key/map
+          portal={portal} // Portal datas
           onPortalClick={() => onPortalClick(portal.targetMapId, portal.spawnPosition)}
         />
       ))}

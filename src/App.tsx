@@ -2,10 +2,11 @@ import React, { useRef, useState } from 'react';
 import PlayerToken from './components/playerToken/playerToken';
 import CurrentMap from './components/currentmap/currentMap';
 import CameraBoundary from './components/cameraBoundary/cameraBoundary';
+import CameraScroller from './components/cameraScroller/cameraScroller';
 
 function App() {
-  const [tokenPosition, setTokenPosition] = useState({ x: 0, y: 0 });
-  const [currentMapId, setCurrentMapId] = useState('village-1');
+  const [tokenPosition, setTokenPosition] = useState({ x: 0, y: 0 }); //db
+  const [currentMapId, setCurrentMapId] = useState('village-1'); //db
 
   const playerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -23,7 +24,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className="game-container">
       <div className="hud">
         Interface - Carte actuelle: {currentMapId}
         <div>
@@ -36,19 +37,23 @@ function App() {
           </button>
         </div>
       </div>
+      <CameraScroller
+      playerPosition= {tokenPosition}
+      mapRef={mapRef}
+      />
       <CurrentMap
         mapRef={mapRef}
         currentMapId={currentMapId}
         onMapChange={handleMapChange}
-        onPortalClick={handlePortalClick} // <-- à transmettre aux portails
+        onPortalClick={handlePortalClick} // <-- Portals transmitions
       >
         <PlayerToken
           givenChangedPos={setTokenPosition}
-          position={tokenPosition} // <-- important
+          position={tokenPosition}
         />
         <CameraBoundary tokenPosition={tokenPosition} />
       </CurrentMap>
-    </>
+    </div>
   );
 }
 

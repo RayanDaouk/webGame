@@ -10,7 +10,7 @@ export const village1: MapData = {
     {
       id: 'to-dungeon-1',
       targetMapId: 'dungeon-1',
-      position: { x: 400, y: 300 }, // Position du bouton sur cette map
+      position: { x: 400, y: 300 }, // Position of portal on map
       label: 'Entrer dans la Crypte',
       size: {
         width: 120,
@@ -19,7 +19,7 @@ export const village1: MapData = {
       spawnPosition: {
         x: 200,
         y: 200,
-      }, // Position où le joueur apparaît dans targetMapId
+      }, // Position where player spawn on targetMapId
     },
   ],
 };
