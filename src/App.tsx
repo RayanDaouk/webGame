@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
+import Phaser from 'phaser';
 import PlayerToken from './components/playerToken/playerToken';
 import CurrentMap from './components/currentmap/currentMap';
 import CameraBoundary from './components/cameraBoundary/cameraBoundary';
-import CameraScroller from './components/cameraScroller/cameraScroller';
+import CameraFollower from './components/cameraFollower/cameraFollower';
 
 function App() {
-  const [tokenPosition, setTokenPosition] = useState({ x: 0, y: 0 }); //db
+  const [tokenPosition, setTokenPosition] = useState({ x: 400, y: 300 }); //db
   const [currentMapId, setCurrentMapId] = useState('village-1'); //db
 
   const playerRef = useRef<HTMLDivElement | null>(null);
@@ -37,9 +38,10 @@ function App() {
           </button>
         </div>
       </div>
-      <CameraScroller
-      playerPosition= {tokenPosition}
-      mapRef={mapRef}
+      <CameraFollower
+        playerPosition={tokenPosition}
+        mapRef={mapRef}
+        smoothing={0.1}
       />
       <CurrentMap
         mapRef={mapRef}
