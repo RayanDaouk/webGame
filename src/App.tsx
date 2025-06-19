@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import Phaser from 'phaser';
+// import Phaser from 'phaser';
 import PlayerToken from './components/playerToken/playerToken';
 import CurrentMap from './components/currentmap/currentMap';
 import CameraBoundary from './components/cameraBoundary/cameraBoundary';

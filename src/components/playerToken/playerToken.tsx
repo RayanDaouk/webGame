@@ -25,9 +25,9 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
 
   // Joystick parameters
   const MIN_MOVE_SPEED = 0.003; // px/ms - min speed
-  const MOVE_SPEED = 0.0056; // px/ms - max speed 0.0056
+  const MOVE_SPEED = 0.0056; // px/ms - max speed 0.0056  //db
   const currentSpeed = useRef(MIN_MOVE_SPEED); // Smooth speed
-  const MAX_DISTANCE = 20;
+  const MAX_DISTANCE = 20; // Joystick stretch distance with mouse
   const DEAD_ZONE = 1; // dead zone to prevent micro-movement
   const SMOOTHING_FACTOR = 0.8; // on ms, change this value to modify joystick sensibility
   const SPEED_SMOOTHING = 0.85; // 1 is more smooth, 0 is instant
@@ -35,7 +35,7 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
   // Movement animation
   const animate = (currentTime: number) => {
     if (isMoving) {
-      // Delta time calculation
+      // Delta time calculation, 16 = 1 frame = 1000ms ÷ 60 fps
       const deltaTime =
         lastFrameTime.current === 0 ? 16 : currentTime - lastFrameTime.current;
       lastFrameTime.current = currentTime;
