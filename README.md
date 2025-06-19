@@ -1,64 +1,68 @@
 EN:
-🚀 Getting Started with Create React App for a Web Game:
-Frontend Drupal developer since January 2022, I’m rediscovering ReactJS out of pure passion and curiosity.
+🚀 Starting a ReactJS Project to Build a Web Game
+Frontend Drupal Developer since January 2022, I’m rediscovering ReactJS purely out of passion and curiosity.
 
-I decided to start this web game project, drawing inspiration from Golden Sun (for the combat system) and Myst-Legacy (for exploration).
-I’m not sure how far this project will go, but it means a lot to me.
+I’ve decided to create this web game project, drawing inspiration from titles like Golden Sun (for the combat system) and Myst-Legacy (for exploration).
+I’m not yet sure where this project will take me, but it’s very close to my heart.
 
 🧭 Project Goals
-Major Steps:
-- Passively learn ReactJS with TypeScript.
+Main Steps:
+Passively learn ReactJS with TypeScript.
 
-Develop all core technical features:
+Develop all the technical features:
 
 - Player movement
 
-- Area transitions
+- Zone transitions
 
 - Monster spawning
 
-- UI and interactions
+- UI and more
 
-- Add visual elements:
-As a trained graphic designer, I will create custom visual assets for the game.
+- Add graphics:
+As a trained graphic designer, I plan to use my visual skills to create the game’s graphic assets.
 
 📌 Current Progress
-1) Player movement – ✅ Done
-I created an intuitive movement system using a simulated analog joystick attached to the player token. The movement is mouse-based.
+1) Player Movement – ✅ Done
+I chose to simulate an analog joystick anchored to the player token. The goal was to create an intuitive mouse-based movement system.
 
-2) Area transitions – ⏳ In progress
-The main challenge is optimizing map loading via lazy loading.
-Each map includes:
+2) Map Switching – ⏳ In Progress
+The main challenge is optimizing map loading through lazy loading.
+Each map contains:
 
-- Its own decorations
+Its own scenery
 
-- Spawn points
+Spawns ✅ Done
 
-- Collisions
+Collisions
 
-- Doors, etc.
+Doors... ✅ Done
 
-🔧 A custom door component is being built to enable map transitions.
+🔧 Created a door component to allow switching maps.
 
-3) Camera boundary – 🔄 To do
-A dynamic boundary zone will follow the player.
-When it nears the edge of the player’s screen, the window will scroll in the appropriate direction.
-Direction data will be passed from TokenPlayer to the CameraBoundary component.
+3) Follow Camera – ✅ Done
+Built a camera that follows the player’s token. It automatically applies velocity and direction based on the player’s movement.
 
-4) Polygonal zones – 🔄 To do
-A component will allow:
+Issues encountered:
+- At first, I tried using a centered zone on the screen, where the screen would scroll only when the player left this area. But syncing the scroll speed with the 60fps animation system (x px/frame simulated) was very tricky. The values sent from PlayerToken were either too small (getting rounded down by the browser to 0, ugh...) or too fast. In short, syncing the player and the camera was a nightmare.
 
-- Custom shapes with configurable number of points
+- After 4 hours of trying, I scrapped it all and instead applied a translation to the entire world, keeping the camera centered on the player’s position. Bingo—it worked.
+Using clamp calculations, I easily set camera boundaries based on the map size. Since the camera now directly follows the player’s position, it naturally adopts the player’s speed and simulated 60fps animation.
 
-- Positioning within a specific map
+4) Polygonal Zones – 🔄 To Do
+Create a component to:
 
-🎯 Custom zone features:
+- Define number of points and shape
 
-- Monster spawn zones (initially simulated)
+- Set its position on the map
 
-- Collision areas
+🎯 Custom zones can serve several purposes:
 
-- Zones restricted by level requirements
+- Monster spawn areas (initially simulated)
+
+- Collision zones
+
+- Level-gated restricted zones
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -98,18 +102,23 @@ Chaque carte contient :
 
 - ses propres décors
 
-- spawns
+- spawns ✅ Fait
 
 - collisions
 
-- portes...
+- portes... ✅ Fait
 
 🔧 Création d’un composant porte permettant de changer de carte.
 
-3) Délimitation de la caméra – 🔄 À faire
-Création d'une zone autour du pion.
-Lorsque cette zone approche des bords de l’écran, l'écran doit scroller dans la bonne direction.
-La direction sera transmise depuis TokenPlayer au composant CameraBoundary.
+3) Caméra suiveuse – ✅ Fait
+Création d'une caméra suiveuse du pion du joueur. Cette caméra applique
+automatiquement une vélocité et une direction de suivi en fonction du déplacement
+du joueur.
+
+Difficultées rencontrée:
+- J'ai d'abord voulu utiliser un système de zone centrée à l'écran, puis, quand le pion du joueur quittait la zone, l'écran scrollait mais il était difficile de synchroniser la vitesse de scroll avec le système d'animation en 60fps (x px/frame simulée). Pour résumer, les valeurs envoyé par PlayerToken étaient soit trop petite, empêchant la fenêtre de scroller (car le navigateur arrondissait en-dessous et j'étais donc à 0 , pfff...) soit trop rapide. Donc, impossible de synchroniser le pion et la caméra.
+
+- Après 4h d'essaie, j'ai tout supprimé, puis j'ai plutôt appliqué une translation sur le monde global tout en centrant la camera sur la position du joueur. Et la bingo, ça fonctionne. En utilisant des calculs de clamp j'ai pu facilement mettre en place les limites de la camera en fonction de la taille de la map courante, le tout en adoptant automatiquement la vitesse du joueur et son animation en 60fps simulé, vu que là, la caméra suit simplement la position du joueur.
 
 4) Zones polygonales – 🔄 À faire
 Création d’un composant permettant de :

@@ -6,7 +6,7 @@ import { Position } from '../../types/position';
 
 interface PlayerTokenProps {
   givenChangedPos?: (position: Position) => void;
-  position: Position; // <- nouvelle prop
+  position: Position;
 }
 
 const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
@@ -26,7 +26,7 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
   // Joystick parameters
   const MIN_MOVE_SPEED = 0.003; // px/ms - min speed
   const MOVE_SPEED = 0.0056; // px/ms - max speed 0.0056
-  const currentSpeed = useRef(MIN_MOVE_SPEED); // Vitesse actuelle lissée
+  const currentSpeed = useRef(MIN_MOVE_SPEED); // Smooth speed
   const MAX_DISTANCE = 20;
   const DEAD_ZONE = 1; // dead zone to prevent micro-movement
   const SMOOTHING_FACTOR = 0.8; // on ms, change this value to modify joystick sensibility
@@ -201,7 +201,7 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
     }
 
     setTokenPosition(position);
-
+    // Clean up to prevent multiple events and frames
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);

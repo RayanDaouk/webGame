@@ -4,9 +4,9 @@ import { Position } from '../../types/position';
 interface CameraFollowerProps {
   playerPosition: Position;
   mapRef: RefObject<HTMLDivElement | null>;
-  smoothing?: number; // Facteur de lissage (0 = instantané, 1 = très lent)
-  offsetX?: number; // Décalage horizontal (pour centrer différemment)
-  offsetY?: number; // Décalage vertical
+  smoothing?: number; // 0 = instant, 1 = very smoothing
+  offsetX?: number; // Horizontal gap to decenter camera from playerToken
+  offsetY?: number; // Vertical gap
 }
 
 const CameraFollower: React.FC<CameraFollowerProps> = ({
@@ -34,23 +34,23 @@ const CameraFollower: React.FC<CameraFollowerProps> = ({
       const mapWidth = map.offsetWidth;
       const mapHeight = map.offsetHeight;
 
-      // Get playerPosition to fix it & currently, depend HUD size
+      // Center camera and match with playerPosition
       const targetCameraX = playerPosition.x - viewportWidth / 2 + offsetX;
       const targetCameraY = playerPosition.y - viewportHeight / 2 + offsetY;
 
       // Camera limite to not leave from map
       const maxCameraX = Math.max(0, mapWidth - viewportWidth);
       const maxCameraY = Math.max(0, mapHeight - viewportHeight);
+      // ClampedTarget automatically offsets playerToken when the camera is at the limits of the map
+      const clampedTargetX = Math.max(0, Math.min(targetCameraX, maxCameraX)); // Bottom right border
+      const clampedTargetY = Math.max(0, Math.min(targetCameraY, maxCameraY)); // top left border
 
-      const clampedTargetX = Math.max(0, Math.min(targetCameraX, maxCameraX));
-      const clampedTargetY = Math.max(0, Math.min(targetCameraY, maxCameraY));
-
-      // First update for instant pos (it will be evolved with DB save)
+      // For First update fix camera on tokenPlayer instantly
       if (isFirstUpdate.current) {
         currentCameraPos.current = { x: clampedTargetX, y: clampedTargetY };
         isFirstUpdate.current = false;
       } else {
-        // Smoothing camera
+        // Smoothing camera (reduce distance per frame, exemple: 100 × 0.1 = 10)
         currentCameraPos.current.x += (clampedTargetX - currentCameraPos.current.x) * smoothing;
         currentCameraPos.current.y += (clampedTargetY - currentCameraPos.current.y) * smoothing;
       }
@@ -63,7 +63,7 @@ const CameraFollower: React.FC<CameraFollowerProps> = ({
     // Start animation
     animationFrameId.current = requestAnimationFrame(updateCamera);
 
-    // Cleanup
+    // Cleanup to prevent useEffect duplication
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
