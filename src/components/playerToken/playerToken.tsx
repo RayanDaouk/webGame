@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import style from './playerToken.module.scss';
-// import { PlayerTokenProps } from '../../types/playerToken';
 import { Position } from '../../types/position';
 
 interface PlayerTokenProps {
   givenChangedPos?: (position: Position) => void;
   position: Position;
+  cameraPosition?: Position; // Nouvelle prop pour la position de la caméra
 }
 
-const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
+const PlayerToken = ({ givenChangedPos, position, cameraPosition }: PlayerTokenProps) => {
   const [tokenPosition, setTokenPosition] = useState(position);
   const [isMoving, setIsMoving] = useState(false);
   const [startMousePos, setStartMousePos] = useState({ x: 0, y: 0 });
@@ -32,6 +32,15 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
   const SMOOTHING_FACTOR = 0.8; // on ms, change this value to modify joystick sensibility
   const SPEED_SMOOTHING = 0.85; // 1 is more smooth, 0 is instant
 
+  // Fonction pour convertir les coordonnées de la souris en coordonnées de la carte
+  const getMapMousePosition = (clientX: number, clientY: number) => {
+    const camera = cameraPosition || { x: 0, y: 0 };
+    return {
+      x: clientX + camera.x,
+      y: clientY + camera.y
+    };
+  };
+
   // Movement animation
   const animate = (currentTime: number) => {
     if (isMoving) {
@@ -40,20 +49,30 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
         lastFrameTime.current === 0 ? 16 : currentTime - lastFrameTime.current;
       lastFrameTime.current = currentTime;
 
-      //Checking dead zone position for all frames of animation
+      // Convert current mouse post to map coordinations
+      const mapMousePos = getMapMousePosition(currentMousePos.current.x, currentMousePos.current.y);
+
+      // calculate the direction for each frame (simulate real time)
       const virtualStickCenterX =
         startMousePos.x + (tokenPosition.x - startTokenPos.x);
       const virtualStickCenterY =
         startMousePos.y + (tokenPosition.y - startTokenPos.y);
 
-      const deltaX = currentMousePos.current.x - virtualStickCenterX;
-      const deltaY = currentMousePos.current.y - virtualStickCenterY;
-      const distanceToMouse = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      const deltaX = mapMousePos.x - virtualStickCenterX;
+      const deltaY = mapMousePos.y - virtualStickCenterY;
 
-      // If mouse cursor touch dead zone, player token stop movement
-      if (distanceToMouse <= DEAD_ZONE) {
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      const clampedDistance = Math.min(distance, MAX_DISTANCE);
+      if (distance > DEAD_ZONE) {
+        targetDirection.current = {
+          x: (deltaX / distance) * clampedDistance,
+          y: (deltaY / distance) * clampedDistance,
+        };
+      } else {
         targetDirection.current = { x: 0, y: 0 };
+        setMovementClass('');
       }
+      // --
 
       // Smoothing target direction (not depend framerate to prevent broken animation during lag)
       const smoothingAmount =
@@ -81,14 +100,10 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
       }
 
       if (currentMagnitude > DEAD_ZONE) {
-        // Calculate distance between player token and mouse
+        // Calculate distance between player token and mouse (en coordonnées de la carte)
         const realDistanceToMouse = Math.sqrt(
-          (currentMousePos.current.x -
-            (tokenPosition.x + startTokenPos.x - startMousePos.x)) **
-            2 +
-            (currentMousePos.current.y -
-              (tokenPosition.y + startTokenPos.y - startMousePos.y)) **
-              2,
+          (mapMousePos.x - tokenPosition.x) ** 2 +
+          (mapMousePos.y - tokenPosition.y) ** 2,
         );
 
         // Calculate speed depend current distance with mouse
@@ -149,15 +164,18 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
       if (isMoving) {
         currentMousePos.current = { x: e.clientX, y: e.clientY };
 
+        // Convert mouse pos to map coordinates
+        const mapMousePos = getMapMousePosition(e.clientX, e.clientY);
+
         // Place virtual joystick on center of player token
         const virtualStickCenterX =
           startMousePos.x + (tokenPosition.x - startTokenPos.x);
         const virtualStickCenterY =
           startMousePos.y + (tokenPosition.y - startTokenPos.y);
 
-        // Calculate direction depend position of player token
-        const deltaX = e.clientX - virtualStickCenterX;
-        const deltaY = e.clientY - virtualStickCenterY;
+        // Calculate direction depend position of player token (map coordination)
+        const deltaX = mapMousePos.x - virtualStickCenterX;
+        const deltaY = mapMousePos.y - virtualStickCenterY;
 
         // Limit distance of joystick
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -219,13 +237,17 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
     startTokenPos.x,
     startTokenPos.y,
     position,
+    cameraPosition,
   ]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsMoving(true);
-    setStartMousePos({ x: e.clientX, y: e.clientY });
+
+    // Convert mouse initial pos to map coordinate
+    const mapMousePos = getMapMousePosition(e.clientX, e.clientY);
+    setStartMousePos({ x: mapMousePos.x, y: mapMousePos.y });
     setStartTokenPos({ x: tokenPosition.x, y: tokenPosition.y }); // Save actual pos of token
-    currentMousePos.current = { x: e.clientX, y: e.clientY }; // Get mouse pos
+    currentMousePos.current = { x: e.clientX, y: e.clientY }; // Get mouse pos (viewport coordinates)
     lastFrameTime.current = 0; // Restart timer
 
     // Prevent selection
@@ -248,5 +270,3 @@ const PlayerToken = ({ givenChangedPos, position }: PlayerTokenProps) => {
 };
 
 export default PlayerToken;
-// TODO: cameraBoundary simuler ici? Tu places un élément en absolute sur le token , en forme de cercle . Quand il est proche des bords de
-// l ecran ça scroll

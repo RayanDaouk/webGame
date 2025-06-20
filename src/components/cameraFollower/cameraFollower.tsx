@@ -7,6 +7,7 @@ interface CameraFollowerProps {
   smoothing?: number; // 0 = instant, 1 = very smoothing
   offsetX?: number; // Horizontal gap to decenter camera from playerToken
   offsetY?: number; // Vertical gap
+  onCameraPositionChange?: (position: Position) => void;
 }
 
 const CameraFollower: React.FC<CameraFollowerProps> = ({
@@ -15,6 +16,7 @@ const CameraFollower: React.FC<CameraFollowerProps> = ({
   smoothing = 0.1,
   offsetX = 0,
   offsetY = 0,
+  onCameraPositionChange,
 }) => {
   const currentCameraPos = useRef({ x: 0, y: 0 });
   const animationFrameId = useRef<number | null>(null);
@@ -54,7 +56,16 @@ const CameraFollower: React.FC<CameraFollowerProps> = ({
         currentCameraPos.current.x += (clampedTargetX - currentCameraPos.current.x) * smoothing;
         currentCameraPos.current.y += (clampedTargetY - currentCameraPos.current.y) * smoothing;
       }
+
       map.style.transform = `translate(-${currentCameraPos.current.x}px, -${currentCameraPos.current.y}px)`;
+
+      // Given current map pos to parent
+      if (onCameraPositionChange) {
+        onCameraPositionChange({
+          x: currentCameraPos.current.x,
+          y: currentCameraPos.current.y
+        });
+      }
 
       // Continue animation
       animationFrameId.current = requestAnimationFrame(updateCamera);
@@ -69,7 +80,8 @@ const CameraFollower: React.FC<CameraFollowerProps> = ({
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [playerPosition.x, playerPosition.y, smoothing, offsetX, offsetY, mapRef]);
+  }, [playerPosition.x, playerPosition.y, smoothing, offsetX, offsetY, mapRef, onCameraPositionChange]);
+
   return null;
 };
 
