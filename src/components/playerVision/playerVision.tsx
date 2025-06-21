@@ -4,20 +4,23 @@ import { Position } from '../../types/position';
 
 interface PlayerVisionProps {
   tokenPosition: Position;
+  givenVisionSize: (number: number) => void;
 }
 
-const PlayerVision = ({ tokenPosition }: PlayerVisionProps) => {
-  const CIRCLE_SIZE = 100;
+const PlayerVision = ({ tokenPosition, givenVisionSize }: PlayerVisionProps) => {
+
+  const circleSize = 100; // db
+  givenVisionSize(circleSize / 2); // Radius
 
   return (
     <div
       className={style.playerVision}
       style={{
         position: 'absolute',
-        left: `${tokenPosition.x - CIRCLE_SIZE / 2}px`,
-        top: `${tokenPosition.y - CIRCLE_SIZE / 2}px`,
-        width: `${CIRCLE_SIZE}px`,
-        height: `${CIRCLE_SIZE}px`,
+        left: `${tokenPosition.x - circleSize / 2}px`,
+        top: `${tokenPosition.y - circleSize / 2}px`,
+        width: `${circleSize}px`,
+        height: `${circleSize}px`,
         pointerEvents: 'none',
         zIndex: 0,
       }}

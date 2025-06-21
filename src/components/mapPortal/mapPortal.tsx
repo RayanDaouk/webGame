@@ -3,15 +3,17 @@ import { MapPortal } from '../../types/map';
 
 interface MapPortalProps {
   portal: MapPortal;
+  isInPlayerVision: boolean;
   onPortalClick: (targetMapId: string) => void;
 }
 
-const MapPortalComponent = ({ portal, onPortalClick }: MapPortalProps) => {
+const MapPortalComponent = ({ portal, isInPlayerVision, onPortalClick }: MapPortalProps) => {
   const defaultSize = { width: 100, height: 30 };
   const size = portal.size || defaultSize;
 
   return (
     <button
+      className={ isInPlayerVision ? 'on-player-vision' : ''}
       onClick={() => onPortalClick(portal.targetMapId)}
       style={{
         position: 'absolute',

@@ -9,6 +9,7 @@ function App() {
   const [tokenPosition, setTokenPosition] = useState({ x: 400, y: 300 }); //db
   const [currentMapId, setCurrentMapId] = useState('village-1'); //db
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0 }); // Shared with playerToken
+  const [playerVisionScope, setPlayerVisionScope] = useState<number>(0);
 
   const playerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -53,6 +54,8 @@ function App() {
       <CurrentMap
         mapRef={mapRef}
         currentMapId={currentMapId}
+        getPlayerVisionScope={playerVisionScope}
+        playerPosition={tokenPosition}
         onMapChange={handleMapChange}
         onPortalClick={handlePortalClick} // <-- Portals transmitions
       >
@@ -61,7 +64,7 @@ function App() {
           position={tokenPosition}
           cameraPosition={cameraPosition} // get current new camera pos
         />
-        <PlayerVision tokenPosition={tokenPosition} />
+        <PlayerVision tokenPosition={tokenPosition} givenVisionSize={setPlayerVisionScope} />
       </CurrentMap>
     </div>
   );

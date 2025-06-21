@@ -8,6 +8,8 @@ interface Props {
   mapRef: RefObject<HTMLDivElement | null>; // DOm ref for map
   children: ReactNode; // Render children => compo playerToken
   currentMapId: string;
+  getPlayerVisionScope: number;
+  playerPosition: Position;
   onMapChange: ( // Called when player change map
     newMapId: string,
     spawnPosition?: {
@@ -18,10 +20,22 @@ interface Props {
   onPortalClick: (targetMapId: string, spawnPosition: { x: number; y: number }) => void;
 }
 
-const CurrentMap = ({ mapRef, children, currentMapId, onMapChange, onPortalClick  }: Props) => {
+const CurrentMap = ({ mapRef, children, currentMapId, getPlayerVisionScope, playerPosition, onMapChange, onPortalClick  }: Props) => {
   const [currentMap, setCurrentMap] = useState<MapData | null>(null); // Actual data map (loaded from ID)
   const [loading, setLoading] = useState(false); // Render during loading
   const [error, setError] = useState<string | null>(null); // Errors on map gestion
+
+  // Distance calculation beteween 2 points
+  const calculateDistance = (pos1: Position, pos2: Position): number => {
+    const dx = pos1.x - pos2.x;
+    const dy = pos1.y - pos2.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+  // Portal is on PlayerVision?
+  const isPortalInVision = (portalPosition: Position, playerPosition: Position, visionRadius: number): boolean => {
+    const distance = calculateDistance(portalPosition, playerPosition);
+    return distance <= visionRadius;
+  };
 
   useEffect(() => { // Hook useEffect :called each time the currentMapId changes and is passed as a parameter to be tracked
     const loadCurrentMap = async () => { // Async load map
@@ -82,6 +96,7 @@ const CurrentMap = ({ mapRef, children, currentMapId, onMapChange, onPortalClick
         <MapPortalComponent
           key={portal.id} // Unique key/map
           portal={portal} // Portal datas
+          isInPlayerVision={isPortalInVision(portal.position, playerPosition, getPlayerVisionScope)}
           onPortalClick={() => onPortalClick(portal.targetMapId, portal.spawnPosition)}
         />
       ))}
