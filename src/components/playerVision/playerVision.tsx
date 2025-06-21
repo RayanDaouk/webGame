@@ -1,17 +1,17 @@
 import React from 'react';
-import style from './cameraBoundary.module.scss';
+import style from './playerVision.module.scss';
 import { Position } from '../../types/position';
 
-interface CameraBoundaryProps {
+interface PlayerVisionProps {
   tokenPosition: Position;
 }
-// creation de la props token position qui va récupérer la pos du joueur
-const CameraBoundary = ({ tokenPosition }: CameraBoundaryProps) => {
-  const CIRCLE_SIZE = 100; // Taille du cercle en pixels
+
+const PlayerVision = ({ tokenPosition }: PlayerVisionProps) => {
+  const CIRCLE_SIZE = 100;
 
   return (
     <div
-      className={style.cameraBoundary}
+      className={style.playerVision}
       style={{
         position: 'absolute',
         left: `${tokenPosition.x - CIRCLE_SIZE / 2}px`,
@@ -25,5 +25,5 @@ const CameraBoundary = ({ tokenPosition }: CameraBoundaryProps) => {
   );
 };
 
-export default CameraBoundary;
+export default PlayerVision;
 // BUG mineur: Le cercle n'est pas parfaitement centré avec le centre du playerToken

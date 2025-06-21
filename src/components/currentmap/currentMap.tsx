@@ -90,3 +90,4 @@ const CurrentMap = ({ mapRef, children, currentMapId, onMapChange, onPortalClick
 };
 
 export default CurrentMap;
+//Get PlayerVision size to hide the portal if it is outside playerVision (switch class)

@@ -6,7 +6,7 @@ import { Position } from '../../types/position';
 interface PlayerTokenProps {
   givenChangedPos?: (position: Position) => void;
   position: Position;
-  cameraPosition?: Position; // Nouvelle prop pour la position de la caméra
+  cameraPosition?: Position;
 }
 
 const PlayerToken = ({ givenChangedPos, position, cameraPosition }: PlayerTokenProps) => {

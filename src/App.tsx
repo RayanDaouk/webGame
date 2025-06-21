@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PlayerToken from './components/playerToken/playerToken';
 import CurrentMap from './components/currentmap/currentMap';
-import CameraBoundary from './components/cameraBoundary/cameraBoundary';
+import PlayerVision from './components/playerVision/playerVision';
 import CameraFollower from './components/cameraFollower/cameraFollower';
 import { Position } from './types/position';
 
@@ -61,7 +61,7 @@ function App() {
           position={tokenPosition}
           cameraPosition={cameraPosition} // get current new camera pos
         />
-        <CameraBoundary tokenPosition={tokenPosition} />
+        <PlayerVision tokenPosition={tokenPosition} />
       </CurrentMap>
     </div>
   );
