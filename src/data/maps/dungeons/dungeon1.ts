@@ -16,6 +16,48 @@ export const dungeon1: MapData = {
       spawnPosition: { x: 400, y: 300 },
     },
   ],
+  collisions: [
+    {
+      id: 'dungeon-wall-north',
+      x: 100,
+      y: 100,
+      width: 200,
+      height: 30,
+      type: 'wall'
+    },
+    {
+      id: 'dungeon-wall-east',
+      x: 500,
+      y: 150,
+      width: 30,
+      height: 150,
+      type: 'wall'
+    },
+    {
+      id: 'dungeon-pillar-1',
+      x: 300,
+      y: 400,
+      width: 40,
+      height: 40,
+      type: 'obstacle'
+    },
+    {
+      id: 'dungeon-pillar-2',
+      x: 450,
+      y: 400,
+      width: 40,
+      height: 40,
+      type: 'obstacle'
+    },
+    {
+      id: 'dungeon-altar',
+      x: 250,
+      y: 600,
+      width: 120,
+      height: 80,
+      type: 'obstacle'
+    }
+  ]
 };
 
 export default dungeon1;

@@ -22,6 +22,40 @@ export const village1: MapData = {
       }, // Position where player spawn on targetMapId
     },
   ],
+  collisions: [
+    {
+      id: 'village-house-1',
+      x: 200,
+      y: 50,
+      width: 100,
+      height: 25,
+      type: 'wall'
+    },
+    {
+      id: 'village-well',
+      x: 350,
+      y: 200,
+      width: 80,
+      height: 40,
+      type: 'obstacle'
+    },
+    {
+      id: 'village-fence',
+      x: 100,
+      y: 400,
+      width: 300,
+      height: 15,
+      type: 'barrier'
+    },
+    {
+      id: 'village-tree-1',
+      x: 600,
+      y: 150,
+      width: 50,
+      height: 50,
+      type: 'obstacle'
+    }
+  ]
 };
 
 export default village1;

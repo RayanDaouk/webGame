@@ -1,5 +1,14 @@
 import { Position } from "./position";
 
+export interface CollisionBox {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  type?: 'wall' | 'obstacle' | 'barrier' | 'custom';
+}
+
 export interface MapPortal {
   id: string;
   targetMapId: string;
@@ -17,6 +26,8 @@ export interface MapData {
   backgroundColor?: string;
   backgroundImage?: string;
   portals?: MapPortal[];
+  collisions?: CollisionBox[];
   // autres propriétés spécifiques à chaque map
 }
+
 
