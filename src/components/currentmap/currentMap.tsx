@@ -91,7 +91,6 @@ const CurrentMap = ({ mapRef, children, currentMapId, getPlayerVisionScope, play
     >
       {children}
 
-      {/* Rendered portals */}
       {currentMap.portals?.map((portal) => (
         <MapPortalComponent
           key={portal.id} // Unique key/map

@@ -2,5 +2,7 @@
   border-radius: 50%;
   border: 2px solid rgba(255, 0, 0, 0.5);
   background-color: pink;
-  z-index: 10;
+  opacity: .5; // 1 to active debug
+  z-index: 11;
+  pointer-events: none;
 }

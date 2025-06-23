@@ -5,6 +5,8 @@
   background-color: blue;
   position: absolute;
   transform: translate(-50%, -50%);
+  user-select: none; // Prevent selection
+  z-index: 12;
 }
 .walk {
   background-color: green;

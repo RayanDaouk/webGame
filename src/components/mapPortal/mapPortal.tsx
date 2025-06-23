@@ -1,5 +1,8 @@
 import React from 'react';
 import { MapPortal } from '../../types/map';
+import clsx from 'clsx';
+import  Style  from './mapPortal.module.scss';
+
 
 interface MapPortalProps {
   portal: MapPortal;
@@ -13,21 +16,16 @@ const MapPortalComponent = ({ portal, isInPlayerVision, onPortalClick }: MapPort
 
   return (
     <button
-      className={ isInPlayerVision ? 'on-player-vision' : ''}
+      className={clsx(
+        Style.portal,
+        isInPlayerVision && Style['on-player-vision']
+      )}
       onClick={() => onPortalClick(portal.targetMapId)}
       style={{
-        position: 'absolute',
         left: `${portal.position.x}px`,
         top: `${portal.position.y}px`,
         width: `${size.width}px`,
         height: `${size.height}px`,
-        backgroundColor: '#4CAF50',
-        color: 'white',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        fontSize: '12px',
-        zIndex: 10,
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.backgroundColor = '#45a049';

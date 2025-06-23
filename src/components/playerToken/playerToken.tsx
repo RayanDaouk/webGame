@@ -32,7 +32,7 @@ const PlayerToken = ({ givenChangedPos, position, cameraPosition }: PlayerTokenP
   const SMOOTHING_FACTOR = 0.8; // on ms, change this value to modify joystick sensibility
   const SPEED_SMOOTHING = 0.85; // 1 is more smooth, 0 is instant
 
-  // Fonction pour convertir les coordonnées de la souris en coordonnées de la carte
+  // Convert mouse coordinate to map pos
   const getMapMousePosition = (clientX: number, clientY: number) => {
     const camera = cameraPosition || { x: 0, y: 0 };
     return {
@@ -262,8 +262,6 @@ const PlayerToken = ({ givenChangedPos, position, cameraPosition }: PlayerTokenP
         left: `${tokenPosition.x}px`,
         top: `${tokenPosition.y}px`,
         cursor: isMoving ? 'grabbing' : 'grab',
-        userSelect: 'none', // Prevent selection
-        zIndex: 1,
       }}
     ></div>
   );

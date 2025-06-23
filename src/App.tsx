@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback  } from 'react';
 import PlayerToken from './components/playerToken/playerToken';
 import CurrentMap from './components/currentmap/currentMap';
 import PlayerVision from './components/playerVision/playerVision';
@@ -27,9 +27,9 @@ function App() {
   };
 
   // Get camera pos
-  const handleCameraPositionChange = (position: Position) => {
+  const handleCameraPositionChange = useCallback((position: Position) => {
     setCameraPosition(position);
-  };
+  }, []);
 
   return (
     <div className="game-container">

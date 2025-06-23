@@ -21,6 +21,7 @@ const CameraFollower: React.FC<CameraFollowerProps> = ({
   const currentCameraPos = useRef({ x: 0, y: 0 });
   const animationFrameId = useRef<number | null>(null);
   const isFirstUpdate = useRef(true);
+  const lastReportedPos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const updateCamera = () => {
@@ -59,12 +60,19 @@ const CameraFollower: React.FC<CameraFollowerProps> = ({
 
       map.style.transform = `translate(-${currentCameraPos.current.x}px, -${currentCameraPos.current.y}px)`;
 
-      // Given current map pos to parent
-      if (onCameraPositionChange) {
+
+      const deltaX = Math.abs(currentCameraPos.current.x - lastReportedPos.current.x);
+      const deltaY = Math.abs(currentCameraPos.current.y - lastReportedPos.current.y);
+      // Given current map pos to parent - only if pos has changed (prevent infinity loop)
+      if (onCameraPositionChange && (deltaX > 0.5 || deltaY > 0.5 || isFirstUpdate.current)) {
         onCameraPositionChange({
           x: currentCameraPos.current.x,
           y: currentCameraPos.current.y
         });
+        lastReportedPos.current = {
+          x: currentCameraPos.current.x,
+          y: currentCameraPos.current.y
+        };
       }
 
       // Continue animation
