@@ -12,7 +12,6 @@ interface CollisionBox {
 interface CollisionConfig {
   playerSize: { width: number; height: number };
   collisionBoxes: CollisionBox[];
-  // Nouveau paramètre pour indiquer si le token est centré
   isPlayerCentered?: boolean;
 }
 
@@ -20,30 +19,30 @@ export const useCollision = (config: CollisionConfig) => {
   const { playerSize, collisionBoxes, isPlayerCentered = false } = config;
   const previousPosition = useRef<Position>({ x: 0, y: 0 });
 
-  // Fonction pour détecter la collision entre le joueur et une boîte
+  // Detect collision between player and box
   const checkCollision = useCallback((playerPos: Position, collisionBox: CollisionBox): boolean => {
     let playerLeft: number;
     let playerTop: number;
 
     if (isPlayerCentered) {
-      // Si le token est centré, ajuster la position
+      // if playerToken is centered, adapte:
       playerLeft = playerPos.x - playerSize.width / 2;
       playerTop = playerPos.y - playerSize.height / 2;
     } else {
-      // Si la position correspond au coin supérieur gauche
       playerLeft = playerPos.x;
       playerTop = playerPos.y;
     }
 
+    // calculate PlayerToken collision
     const playerRight = playerLeft + playerSize.width;
     const playerBottom = playerTop + playerSize.height;
-
+    // Calculate box collision
     const boxLeft = collisionBox.x;
     const boxRight = collisionBox.x + collisionBox.width;
     const boxTop = collisionBox.y;
     const boxBottom = collisionBox.y + collisionBox.height;
 
-    // Détection de collision AABB
+    // Collision AABB detection
     return (
       playerLeft < boxRight &&
       playerRight > boxLeft &&
@@ -52,40 +51,40 @@ export const useCollision = (config: CollisionConfig) => {
     );
   }, [playerSize, isPlayerCentered]);
 
-  // Fonction pour vérifier la collision avec toutes les boîtes
+  // Checking all collisions on current map
   const checkAllCollisions = useCallback((playerPos: Position): boolean => {
     return collisionBoxes.some(box => checkCollision(playerPos, box));
   }, [collisionBoxes, checkCollision]);
 
-  // Fonction principale pour valider une position
+  // Checking if pos of PlayerToken is on a collisionBoxe
   const validatePosition = useCallback((newPos: Position): Position => {
     if (!checkAllCollisions(newPos)) {
       previousPosition.current = newPos;
-      return newPos; // Pas de collision, position valide
+      return newPos; // no match? => can move.
     }
 
-    // En cas de collision, on essaie de "glisser" le long des bords
+    // If collision, try to slide along borders
     const prevPos = previousPosition.current;
 
-    // Essayer de bouger seulement en X (garder Y précédent)
+    // Try to move X only (keep previous Y)
     const posWithOldY = { x: newPos.x, y: prevPos.y };
     if (!checkAllCollisions(posWithOldY)) {
       previousPosition.current = posWithOldY;
       return posWithOldY;
     }
 
-    // Essayer de bouger seulement en Y (garder X précédent)
+    // Try to move y only (keep previous X)
     const posWithOldX = { x: prevPos.x, y: newPos.y };
     if (!checkAllCollisions(posWithOldX)) {
       previousPosition.current = posWithOldX;
       return posWithOldX;
     }
 
-    // Si aucune direction ne fonctionne, rester à la position précédente
+    // X and y are stuck? Keep current pos.
     return prevPos;
   }, [checkAllCollisions]);
 
-  // Fonction pour mettre à jour la position de référence
+  // Update pos ref
   const updatePreviousPosition = useCallback((position: Position) => {
     previousPosition.current = position;
   }, []);

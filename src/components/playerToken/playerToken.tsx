@@ -100,7 +100,7 @@ const PlayerToken = ({ givenChangedPos, position, cameraPosition }: PlayerTokenP
       }
 
       if (currentMagnitude > DEAD_ZONE) {
-        // Calculate distance between player token and mouse (en coordonnées de la carte)
+        // Calculate distance between player token and mouse (on map coordinates)
         const realDistanceToMouse = Math.sqrt(
           (mapMousePos.x - tokenPosition.x) ** 2 +
           (mapMousePos.y - tokenPosition.y) ** 2,

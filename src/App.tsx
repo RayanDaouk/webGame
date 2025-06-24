@@ -4,7 +4,7 @@ import CurrentMap from './components/currentmap/currentMap';
 import PlayerVision from './components/playerVision/playerVision';
 import CameraFollower from './components/cameraFollower/cameraFollower';
 import Collision from './components/collision/collision';
-import { useCollision } from './hooks/useCollision'; // Import du hook
+import { useCollision } from './hooks/useCollision';
 import { Position } from './types/position';
 import { CollisionBox } from './types/map';
 import { loadMap } from './data/mapRegistry';
@@ -19,14 +19,14 @@ function App() {
   const playerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
 
-  // Configuration du hook de collision
+  // datas for collision
   const collision = useCollision({
-    playerSize: { width: 40, height: 40 }, // Taille exacte du token (40x40 d'après le CSS)
+    playerSize: { width: 40, height: 40 }, // Current playerTOken size
     collisionBoxes: currentMapCollisions,
-    isPlayerCentered: true // IMPORTANT : true car transform: translate(-50%, -50%)
+    isPlayerCentered: true // it's centered by css
   });
 
-  // Charger les collisions de la carte actuelle
+  // Load all collisions of current map
   useEffect(() => {
     const loadMapCollisions = async () => {
       try {

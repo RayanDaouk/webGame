@@ -20,7 +20,6 @@ interface CollisionProps {
 const Collision = ({ mapRef, currentMapId, playerPosition, collisionBoxes }: CollisionProps) => {
   return (
     <div className="collision-container">
-      {/* Rendu visuel des boîtes de collision */}
       {collisionBoxes.map((box) => (
         <div
           key={box.id}
