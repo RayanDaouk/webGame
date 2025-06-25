@@ -41,18 +41,18 @@ function App() {
     loadMapCollisions();
   }, [currentMapId]);
 
-  // Initialiser la position de référence dans le hook de collision
+  //  init pos ref on useCollision
   useEffect(() => {
     collision.updatePreviousPosition(tokenPosition);
   }, [collision, tokenPosition]);
 
-  // Gestionnaire de position du joueur avec validation via le hook
+  // PlayerToken pos gestion with validation
   const handlePlayerPositionChange = useCallback((newPosition: Position) => {
-    // Utiliser le hook de collision pour valider la position
+    // using useCollision to validate pos (if PlayerToken touch collision)
     const validatedPosition = collision.validatePosition(newPosition);
     setTokenPosition(validatedPosition);
 
-    // Mettre à jour la position de référence dans le hook
+    // Update post ref on useCollision
     collision.updatePreviousPosition(validatedPosition);
   }, [collision]);
 
@@ -66,7 +66,7 @@ function App() {
   ) => {
     setCurrentMapId(targetMapId);
 
-    // Valider la position de spawn avec les collisions
+    // Spawn pos is validate with all collisions?
     const validatedSpawnPosition = collision.validatePosition(spawnPosition);
     setTokenPosition(validatedSpawnPosition);
     collision.updatePreviousPosition(validatedSpawnPosition);
