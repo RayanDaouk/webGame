@@ -11,3 +11,16 @@ code {
   font-family:
     source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+html {
+  overflow: hidden;
+}
+
+.hud {
+  z-index: 1;
+}
+
+.game-container,
+.hud  {
+  position: relative;
+}

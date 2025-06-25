@@ -1,39 +1,32 @@
-import React, { RefObject } from "react";
-import { Position } from "../../types/position";
-import style from './collision.module.scss';
+import React from 'react';
+import styles from './collision.module.scss';
+import { CollisionPolygon } from '../../types/map';
+import { Position } from '../../types/position';
 
-interface CollisionBox {
-  id: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-interface CollisionProps {
-  mapRef: RefObject<HTMLDivElement | null>;
+interface Props {
+  mapRef: React.RefObject<HTMLDivElement | null>;
   currentMapId: string;
   playerPosition: Position;
-  collisionBoxes: CollisionBox[];
+  collisionBoxes: CollisionPolygon[];
 }
 
-const Collision = ({ mapRef, currentMapId, playerPosition, collisionBoxes }: CollisionProps) => {
+const Collision = ({ mapRef, collisionBoxes }: Props) => {
   return (
-    <div className="collision-container">
-      {collisionBoxes.map((box) => (
-        <div
-          key={box.id}
-          className={style.collision}
-          style={{
-            left: `${box.x}px`,
-            top: `${box.y}px`,
-            width: `${box.width}px`,
-            height: `${box.height}px`,
-            position: 'absolute',
-          }}
+    <svg
+      className={styles.collisionOverlay}
+      width="100%"
+      height="100%"
+      style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}
+    >
+      {/* Draw each polygon */}
+      {collisionBoxes.map((poly, index) => (
+        <polygon
+          key={poly.id || index}
+          points={poly.points.map(p => `${p.x},${p.y}`).join(' ')}
+          className={styles.collision}
         />
       ))}
-    </div>
+    </svg>
   );
 };
 

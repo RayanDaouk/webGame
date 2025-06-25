@@ -6,7 +6,7 @@ import CameraFollower from './components/cameraFollower/cameraFollower';
 import Collision from './components/collision/collision';
 import { useCollision } from './hooks/useCollision';
 import { Position } from './types/position';
-import { CollisionBox } from './types/map';
+import { CollisionPolygon } from './types/map';
 import { loadMap } from './data/mapRegistry';
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
   const [currentMapId, setCurrentMapId] = useState('village-1');
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0 });
   const [playerVisionScope, setPlayerVisionScope] = useState<number>(0);
-  const [currentMapCollisions, setCurrentMapCollisions] = useState<CollisionBox[]>([]);
+  const [currentMapCollisions, setCurrentMapCollisions] = useState<CollisionPolygon[]>([]);
 
   const playerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -92,8 +92,8 @@ function App() {
         </div>
         <div>
           <h4>Debug Collisions</h4>
-          <p>Collisions actives: {currentMapCollisions.length}</p>
-          <p>Position joueur: x:{Math.round(tokenPosition.x)}, y:{Math.round(tokenPosition.y)}</p>
+          <p>Active collisions: {currentMapCollisions.length}</p>
+          <p>Player position: x:{Math.round(tokenPosition.x)}, y:{Math.round(tokenPosition.y)}</p>
         </div>
       </div>
       <CameraFollower
@@ -128,3 +128,11 @@ function App() {
 }
 
 export default App;
+
+// Bug:
+// Parfois, après avoir déplacé playerToken, current-map continue de calculer
+// sa translation. -> A corriger dans cameraFallower, ça calcule
+// à l'infini quand il y a le charactère "e" dans le calcule.
+
+// La collision polygonale manque de précision.
+// Ajouter un effet de glissement (test x & y)

@@ -25,35 +25,40 @@ export const village1: MapData = {
   collisions: [
     {
       id: 'village-house-1',
-      x: 200,
-      y: 50,
-      width: 100,
-      height: 25,
-      type: 'wall'
+      points: [
+        { x: 200, y: 50 },
+        { x: 250, y: 10 },
+        { x: 300, y: 50 },
+        { x: 300, y: 75 },
+        { x: 200, y: 75 }
+      ]
     },
     {
       id: 'village-well',
-      x: 350,
-      y: 200,
-      width: 80,
-      height: 40,
-      type: 'obstacle'
+      points: [
+        { x: 350, y: 200 },
+        { x: 430, y: 200 },
+        { x: 430, y: 240 },
+        { x: 350, y: 240 }
+      ]
     },
     {
       id: 'village-fence',
-      x: 100,
-      y: 400,
-      width: 300,
-      height: 15,
-      type: 'barrier'
+      points: [
+        { x: 100, y: 400 },
+        { x: 400, y: 400 },
+        { x: 400, y: 415 },
+        { x: 100, y: 415 }
+      ]
     },
     {
       id: 'village-tree-1',
-      x: 600,
-      y: 150,
-      width: 50,
-      height: 50,
-      type: 'obstacle'
+      points: [
+        { x: 600, y: 150 },
+        { x: 650, y: 150 },
+        { x: 650, y: 200 },
+        { x: 600, y: 200 }
+      ]
     }
   ]
 };

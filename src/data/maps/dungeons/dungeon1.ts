@@ -1,5 +1,5 @@
 import { MapData } from '../../../types/map';
-// Are you lost? Get more infos on village1.ts :)
+
 export const dungeon1: MapData = {
   id: 'dungeon-1',
   name: 'Crypte Sombre',
@@ -13,49 +13,54 @@ export const dungeon1: MapData = {
       position: { x: 200, y: 200 },
       label: 'Sortir du donjon',
       size: { width: 120, height: 40 },
-      spawnPosition: { x: 400, y: 300 },
-    },
+      spawnPosition: { x: 400, y: 300 }
+    }
   ],
   collisions: [
     {
       id: 'dungeon-wall-north',
-      x: 100,
-      y: 100,
-      width: 200,
-      height: 30,
-      type: 'wall'
+      points: [
+        { x: 100, y: 100 },
+        { x: 300, y: 100 },
+        { x: 300, y: 130 },
+        { x: 100, y: 130 }
+      ]
     },
     {
       id: 'dungeon-wall-east',
-      x: 500,
-      y: 150,
-      width: 30,
-      height: 150,
-      type: 'wall'
+      points: [
+        { x: 500, y: 150 },
+        { x: 530, y: 150 },
+        { x: 530, y: 300 },
+        { x: 500, y: 300 }
+      ]
     },
     {
       id: 'dungeon-pillar-1',
-      x: 300,
-      y: 400,
-      width: 40,
-      height: 40,
-      type: 'obstacle'
+      points: [
+        { x: 300, y: 400 },
+        { x: 340, y: 400 },
+        { x: 340, y: 440 },
+        { x: 300, y: 440 }
+      ]
     },
     {
       id: 'dungeon-pillar-2',
-      x: 450,
-      y: 400,
-      width: 40,
-      height: 40,
-      type: 'obstacle'
+      points: [
+        { x: 450, y: 400 },
+        { x: 490, y: 400 },
+        { x: 490, y: 440 },
+        { x: 450, y: 440 }
+      ]
     },
     {
       id: 'dungeon-altar',
-      x: 250,
-      y: 600,
-      width: 120,
-      height: 80,
-      type: 'obstacle'
+      points: [
+        { x: 250, y: 600 },
+        { x: 370, y: 600 },
+        { x: 370, y: 680 },
+        { x: 250, y: 680 }
+      ]
     }
   ]
 };
